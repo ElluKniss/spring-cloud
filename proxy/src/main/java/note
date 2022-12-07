@@ -1,0 +1,8 @@
+FastClass：为一个对象A创建它的FastClass对象，这个FastClass对象相当于A的方法索引，
+根据A的方法名生成并关联一个index、每个index对应A的一个方法。后续只要根据这个index以及A的实例，
+就可以调用fastClass的invoke(instanceOfA, index, args)方法来快速的调用A的方法了。
+实现了Java反射的“运行时动态调用指定类的方法”的功能，但是使用了不同的机制。
+我们知道，java反射调用方法是比较“重”的操作，要经过一系列的权限验证、通过native方法请求jvm去方法区查找方法定义、
+以及最后的invoke仍然可能要通过JNI调用native方法。
+而相比之下，FastClass方式则跟一般的一个普通的对象方法调用没啥区别、只是多了一步根据index判断调用委托类的哪个方法这一步骤、
+性能损耗基本没有

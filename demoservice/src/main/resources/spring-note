@@ -1,0 +1,1 @@
+@configuration是@Component的派生注解，多一个proxyBeanMethods属性，用来处理@Bean注解

@@ -4,12 +4,12 @@ import com.dw.config.ConfigProperties;
 import com.dw.domain.User;
 import com.dw.service.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
@@ -19,23 +19,27 @@ import java.util.Locale;
 @RequestMapping("/user")
 public class UserController {
 
-    @Autowired
+    @Resource
     private UserService userService;
 
-    @Autowired
+    @Resource
     private ConfigProperties configProperties;
-
 
     @GetMapping("/query/{userID}")
     public User queryUser(@PathVariable String userID){
-        User user = userService.getById(userID);
-        return user;
+        return userService.getUserById(userID);
     }
 
     @GetMapping("now")
     public String getNowTime(){
-        String format = LocalDateTime.now().format(DateTimeFormatter.ofPattern(configProperties.getDateformat(), Locale.CHINA));
+        return LocalDateTime.now().format(DateTimeFormatter.ofPattern(configProperties.getDateformat(), Locale.CHINA));
+    }
 
-        return format;
+    @RequestMapping("/log")
+    public void testLog(){
+        log.debug("debug----");
+        log.info("info----");
+        log.warn("warn----");
+        log.error("error---");
     }
 }

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <contextName>userService</contextName>
+
+    <property name="MDC_LOG_PATTERN" value="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%p] [%C{1}:%L] %m%n"></property>
+    <property name="LOG_HOME" value="D:"></property>
+    <property name="FILENAME" value="user"></property>
+
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <!--encoder 默认配置为PatternLayoutEncoder-->
+        <encoder>
+            <pattern>${MDC_LOG_PATTERN}</pattern>
+            <charset>utf-8</charset>
+        </encoder>
+        <!--只配置warn级别，控制台输出的日志级别是大于或等于此级别的日志信息-->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>all</level>
+        </filter>
+    </appender>
+
+    <appender name="test2" class="ch.qos.logback.core.ConsoleAppender">
+        <!--encoder 默认配置为PatternLayoutEncoder-->
+        <encoder>
+            <pattern>${MDC_LOG_PATTERN}</pattern>
+            <charset>utf-8</charset>
+        </encoder>
+        <!--此日志appender是为开发使用，只配置最底级别，控制台输出的日志级别是大于或等于此级别的日志信息-->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>all</level>
+        </filter>
+    </appender>
+
+    <appender name="test3" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 记录的日志文件的路径及文件名 -->
+        <file>${LOG_HOME}/logs/${FILENAME}.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/logs/${FILENAME}-%d{yyyyMMdd}.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!--最大50mb-->
+                <maxFileSize>50MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <append>true</append>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%msg%n</pattern>
+            <charset>utf-8</charset>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>info</level>
+        </filter>
+    </appender>
+
+    <logger name="com.dw.dao" level="debug" additivity="false">
+        <appender-ref ref="test2"/>
+    </logger>
+
+    <root level="info">
+        <!--appender打印日志，如果没有不会打印-->
+        <appender-ref ref="console"/>
+    </root>
+
+</configuration>

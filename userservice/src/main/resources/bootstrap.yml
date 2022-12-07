@@ -3,8 +3,8 @@ spring:
     name: userservice
   profiles:
     active: dev
-  cloud:
-    nacos:
-      config:
-        file-extension: yml
-      server-addr: localhost:8848
+#  cloud:
+#    nacos:
+#      config:
+#        file-extension: yml
+#      server-addr: localhost:8848
