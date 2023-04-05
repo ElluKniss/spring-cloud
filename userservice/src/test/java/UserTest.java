@@ -4,6 +4,7 @@ import com.dw.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -14,6 +15,8 @@ public class UserTest {
     @Autowired
     private UserService userService;
 
+    @Value("${spring.pool.coreSize}")
+    private String coreSize;
     @Test
     public void test(){
 //        User user = userService.getById(1);
@@ -29,5 +32,11 @@ public class UserTest {
         user.setName("戴伟");
         boolean save = userService.save(user);
         System.out.println(save);
+    }
+
+    @Test
+    public void testPro(){
+        System.out.println(coreSize);
+
     }
 }

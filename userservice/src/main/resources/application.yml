@@ -4,6 +4,13 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
     password: daiwei
+  pool:
+    coreSize: 5
+    maxSize: 10
+    queueSize: 5
+    keepAlive: 60
+    prefixName: dw-task-
+  task: on
 mybatis-plus:
   config-location: classpath:/mybatis/mybatis-config.xml
   type-aliases-package: com.dw.domain

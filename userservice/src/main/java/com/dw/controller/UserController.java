@@ -33,9 +33,14 @@ public class UserController {
     }
 
     @GetMapping("now")
-    public String getNowTime(){
-        String format = LocalDateTime.now().format(DateTimeFormatter.ofPattern(configProperties.getDateformat(), Locale.CHINA));
+    public String getNowTime() throws Exception{
 
+        String format = "";
+        try {
+            format = LocalDateTime.now().format(DateTimeFormatter.ofPattern(configProperties.getDateformat(), Locale.CHINA));
+        }catch (Exception e){
+            throw new Exception("获取不到nacos时间配置");
+        }
         return format;
     }
 }
