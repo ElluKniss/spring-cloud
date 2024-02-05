@@ -15,6 +15,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.annotation.Resource;
+import java.util.List;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = UserApplication.class)
 public class UserTest {
@@ -22,6 +25,9 @@ public class UserTest {
     Logger log = LoggerFactory.getLogger(UserTest.class);
     @Autowired
     private UserService userService;
+
+    @Resource
+    private UserMapper userMapper;
 
     @Value("${spring.pool.coreSize}")
     private String coreSize;
@@ -31,9 +37,10 @@ public class UserTest {
 
     @Test
     public void test(){
-//        User user = userService.getById(1);
-        User user = userService.getUserById("2");
-        System.out.println(user);
+        List<User> users = userMapper.selectList(null);
+//        User user = userMapper.selectById("1");
+//        User user = userService.getUserById("2");
+        System.out.println(users);
     }
 
     @Test
@@ -57,9 +64,9 @@ public class UserTest {
 
         SqlSession sqlSession = sqlSessionFactory.openSession();
         UserMapper mapper = sqlSession.getMapper(UserMapper.class);
-        User userById = mapper.getUserById("1");
+        User userById = mapper.selectById("1");
         log.info("1");
-        User userById2 = mapper.getUserById("1");
+        User userById2 = mapper.selectById("1");
         log.info("2");
         Assert.assertNotEquals(userById, userById2);
         log.info("3");

@@ -8,6 +8,7 @@
         <module>userservice</module>
         <module>orderservice</module>
         <module>gateway-a</module>
+        <module>homeservice</module>
     </modules>
 
     <parent>
@@ -25,8 +26,9 @@
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
-        <mybatis.version>3.4.2</mybatis.version>
         <mysql.version>5.1.47</mysql.version>
+        <mybatis-plus.version>3.4.2</mybatis-plus.version>
+        <mybatis.version>2.0.5</mybatis.version>
     </properties>
 
     <dependencyManagement>
@@ -48,7 +50,6 @@
             </dependency>
 
             <!-- https://mvnrepository.com/artifact/org.mybatis.spring.boot/mybatis-spring-boot-starter -->
-
 
 
         </dependencies>

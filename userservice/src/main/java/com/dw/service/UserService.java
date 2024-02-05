@@ -5,5 +5,5 @@ import com.dw.domain.User;
 
 public interface UserService extends IService<User> {
 
-    User getUserById(String userId);
+
 }

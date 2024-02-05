@@ -7,15 +7,16 @@ import com.dw.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
-    @Autowired
+    @Resource
     private UserMapper userMapper;
 
-    @Override
     public User getUserById(String userId) {
-        User user = userMapper.getUserById(userId);
+        User user = userMapper.selectById(userId);
         return user;
     }
 }

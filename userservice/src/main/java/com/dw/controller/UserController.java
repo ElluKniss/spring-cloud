@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
@@ -19,7 +20,7 @@ import java.util.Locale;
 @RequestMapping("/user")
 public class UserController {
 
-    @Autowired
+    @Resource
     private UserService userService;
 
     @Autowired
@@ -28,7 +29,11 @@ public class UserController {
 
     @GetMapping("/query/{userID}")
     public User queryUser(@PathVariable String userID){
-        User user = userService.getById(userID);
+        User user = null;//userService.getById(userID);
+//        if (null == user){
+//            log.info("query getUserById ...");
+//            user = userService.getById(userID);
+//        }
         return user;
     }
 

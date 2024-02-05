@@ -1,11 +1,12 @@
 package com.dw.exception;
 
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
-public class ExceptionHandler {
+public class CommonExceptionHandler {
 
-    @org.springframework.web.bind.annotation.ExceptionHandler(CustomException.class)
+    @ExceptionHandler(CustomException.class)
     public CommonResult customHandler(CustomException e){
 
         CommonResult commonResult = new CommonResult();
@@ -13,7 +14,7 @@ public class ExceptionHandler {
         return commonResult;
     }
 
-    @org.springframework.web.bind.annotation.ExceptionHandler(Exception.class)
+    @ExceptionHandler(InnerException.class)
     public CommonResult commonHandler(Exception e){
         CommonResult commonResult = new CommonResult();
         commonResult.setCode(ResponseCode.ERROR.getCode());
