@@ -23,13 +23,9 @@ import org.springframework.util.StringUtils;
 @Service("UnixService")
 public class UnixService implements IActionService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(UnixService.class);
+    private static final String SECRET_KEY = "fb1d497e55e0433b";
 
-    @Value("${yunpan.secretKey}")
-    private String secretKey;
-
-    @Value("${yunpan.url}")
-    private String url;
+    private static final String URL = "http://120.52.8.241/woapi/dispatcher";
 
     @Override
     public Rsp doAction(JSONObject jsonParam) {
@@ -52,7 +48,7 @@ public class UnixService implements IActionService {
         JSONObject reqBody = new JSONObject();
         String deBody = null;
         try {
-            deBody = AESBase64Util.encrypt(body.toString(), secretKey);
+            deBody = AESBase64Util.encrypt(body.toString(), SECRET_KEY);
         } catch (Exception e) {
             log.error("encrypt error.");
             return resp;
@@ -60,17 +56,17 @@ public class UnixService implements IActionService {
         reqBody.put("header", header);
         reqBody.put("body", deBody);
 
-        LOGGER.info("请求云盘接口serviceName:{}", serviceName);
+        log.info("请求云盘接口serviceName:{}", serviceName);
         String respStr = null;
         try {
-            respStr = HttpUtil.doPost(url, reqBody.toString());
+            respStr = HttpUtil.doPost(URL, reqBody.toString());
         } catch (Exception e) {
             resp.setRspCode(ServiceConstant.STATUS_ERR);
             resp.setRspDesc(ServiceConstant.MSG_ERR);
-            LOGGER.error("云盘接口请求异常:{}！", e.getMessage());
+            log.error("云盘接口请求异常:{}！", e.getMessage());
             return resp;
         }
-        LOGGER.info("云盘接口serviceName:{}返回结果:{}", serviceName, respStr);
+        log.info("云盘接口serviceName:{}返回结果:{}", serviceName, respStr);
 
         if(StringUtils.isEmpty(respStr)){
             JSONObject respJson = JSONObject.parseObject(respStr);
@@ -80,7 +76,7 @@ public class UnixService implements IActionService {
             // 消息体DATA解密
             String decrypt = null;
             try {
-                decrypt = AESBase64Util.decrypt(data, secretKey);
+                decrypt = AESBase64Util.decrypt(data, SECRET_KEY);
             } catch (Exception e) {
                 log.error("decrypt error.");
                 return resp;
@@ -100,17 +96,17 @@ public class UnixService implements IActionService {
             if(!ServiceConstant.RESP_SUCCESS.equals(rsp.getString("RSP_CODE"))){
                 resp.setRspCode(rsp.getString("RSP_CODE"));
                 resp.setRspDesc(rsp.getString("RSP_DESC"));
-                LOGGER.error("业务错误码:{},描述:{}", rsp.getString("RSP_CODE"), rsp.getString("RSP_DESC"));
+                log.error("业务错误码:{},描述:{}", rsp.getString("RSP_CODE"), rsp.getString("RSP_DESC"));
                 return resp;
             }
 
-            LOGGER.info("云盘接口serviceName:{}返回结果data:{}", serviceName, decrypt);
+            log.info("云盘接口serviceName:{}返回结果data:{}", serviceName, decrypt);
             return resp;
         }
 
         resp.setRspCode(ServiceConstant.STATUS_ERR);
         resp.setRspDesc(ServiceConstant.MSG_ERR);
-        LOGGER.error("云盘接口请求失败！");
+        log.error("云盘接口请求失败！");
         return resp;
     }
 }
