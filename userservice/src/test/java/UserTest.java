@@ -4,10 +4,16 @@ import com.dw.dao.UniboxMapper;
 import com.dw.domain.UniboxDevice;
 import com.dw.domain.User;
 import com.dw.service.UserService;
-import com.dw.service.impl.UserServiceImpl;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
@@ -26,23 +32,25 @@ import java.util.concurrent.TimeUnit;
 @SpringBootTest(classes = UserApplication.class)
 public class UserTest {
 
+    Logger log = LoggerFactory.getLogger(UserTest.class);
     @Autowired
     private UserServiceImpl userService;
 
     @Resource
-    private UniboxMapper uniboxMapper;
+    private UserMapper userMapper;
 
-    @Resource
-    private JedisPool jedisPool;
+    @Value("${spring.pool.coreSize}")
+    private String coreSize;
 
-    @Resource
-    private ThreadPoolTaskExecutor threadPool;
+    @Autowired
+    private SqlSessionFactory sqlSessionFactory;
 
     @Test
     public void test(){
-//        User user = userService.getUserById("0");
-        User user = userService.getById("3");
-        System.out.println(user);
+        List<User> users = userMapper.selectList(null);
+//        User user = userMapper.selectById("1");
+//        User user = userService.getUserById("2");
+        System.out.println(users);
     }
 
     @Test

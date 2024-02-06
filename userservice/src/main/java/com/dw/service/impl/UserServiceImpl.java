@@ -17,7 +17,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Resource
     private UserMapper userMapper;
 
-    @Override
     public User getUserById(String userId) {
         log.debug("debug++++++++");
         log.info("info++++++++++");
@@ -28,7 +27,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     /**
-     * é»˜è®¤taskExecutor
+     * Ä¬ÈÏtaskExecutor
      * @throws InterruptedException
      */
     @Async

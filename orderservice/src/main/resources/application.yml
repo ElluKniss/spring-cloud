@@ -4,8 +4,36 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
     password: daiwei
+
   application:
     name: orderservice
-  cloud:
-    nacos:
-      server-addr: localhost:8848
+#  cloud:
+#    nacos:
+#      server-addr: localhost:8848
+
+
+
+  pool:
+    coreSize:5
+    maxSize=10
+    queue-capacity=5
+    keep-alive=60
+    thread-name-prefix=dw-task-
+# 核心线程池数
+
+# 最大线程池数
+
+# 任务队列的容量
+
+# 非核心线程的存活时间
+
+# 线程池的前缀名称
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:9527/eureka/
+server:
+  port: 8081
+logging:
+  level:
+    com.dw.mapper: debug

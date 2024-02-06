@@ -5,15 +5,27 @@ spring:
     password: testHioc226
     driver-class-name: com.mysql.jdbc.Driver
 
-mybatis-plus:
-  config-location: classpath:/mybatis/mybatis-config.xml
-  type-aliases-package: com.dw.domain
-  mapper-locations: classpath:/mybatis/mapper/*.xml
+  pool:
+    coreSize: 5
+    maxSize: 10
+    queueSize: 5
+    keepAlive: 60
+    prefixName: dw-task-
+  task: on
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:9527/eureka/
+
+#mybatis-plus:
+#  config-location: classpath:/mybatis/mybatis-config.xml
+#  type-aliases-package: com.dw.domain
+#  mapper-locations: classpath:/mybatis/mapper/*.xml
 
 server:
   port: 8081
 
 logging:
-  file:
-    path: logs/
-#  config: classpath:logback.xml
+  level:
+    com.dw.dao: debug

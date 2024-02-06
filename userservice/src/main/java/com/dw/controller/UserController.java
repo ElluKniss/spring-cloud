@@ -27,7 +27,12 @@ public class UserController {
 
     @GetMapping("/query/{userID}")
     public User queryUser(@PathVariable String userID){
-        return userService.getUserById(userID);
+        User user = null;//userService.getById(userID);
+//        if (null == user){
+//            log.info("query getUserById ...");
+//            user = userService.getById(userID);
+//        }
+        return user;
     }
 
     @GetMapping("now")
