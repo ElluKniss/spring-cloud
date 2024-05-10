@@ -3,8 +3,10 @@ package com.dw.service.impl;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.dw.client.UserClient;
 import com.dw.domain.Order;
+import com.dw.domain.OrderInfo;
 import com.dw.domain.Product;
 import com.dw.domain.User;
+import com.dw.mapper.OrderInfoMapper;
 import com.dw.mapper.OrderMapper;
 import com.dw.mapper.ProductMapper;
 import com.dw.service.OrderService;
@@ -35,10 +37,15 @@ public class OrderServiceImpl implements OrderService {
     @Resource
     private OrderMapper orderMapper;
 
+    @Resource
+    private OrderInfoMapper orderInfoMapper;
+
     @Override
     public Order queryOrder(String orderId) {
 
         log.info("query order");
+        OrderInfo orderInfo = orderInfoMapper.selectById(2);
+        System.out.println("-------------------------------:" + orderInfo);
         Order order = new Order();
         order.setUserID("2");
         User user = userClient.queryUser(order.getUserID());

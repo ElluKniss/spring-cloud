@@ -15,12 +15,17 @@ spring:
 
   application:
     name: homeservice
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:9527/eureka/
 mybatis-plus:
   type-aliases-package: com.dw.entity
   mapper-locations: classpath:/mybatis/mapper/*.xml
 
 server:
-  port: 8082
+  port: 8083
 
 logging:
   pattern:
