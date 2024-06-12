@@ -3,7 +3,7 @@ spring:
     name: eureka
 
 server:
-  port: 8080
+  port: 9527
 eureka:
   server:
     #自我保护默认关闭

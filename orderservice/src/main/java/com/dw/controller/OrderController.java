@@ -1,16 +1,19 @@
 package com.dw.controller;
 
-import com.dw.domain.Order;
+import com.dw.domain.OrderInfo;
+import com.dw.domain.com.dw.domain.vo.OrderInfoQueryVo;
+import com.dw.domain.com.dw.domain.vo.OrderInfoVo;
+import com.dw.domain.com.dw.domain.vo.ResultVo;
 import com.dw.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -20,14 +23,30 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
-    @RequestMapping("/query/{orderID}")
+    @RequestMapping("/query/orderId/{orderID}")
     @ResponseBody
-    public Order queryUser(@PathVariable String orderID) {
-        Order order = orderService.queryOrder(orderID);
-        order.setOrderID(orderID);
+    public List<OrderInfo> queryUser(@PathVariable String orderID) {
+        return orderService.queryOrder(orderID);
+    }
+
+    @PostMapping("/query/all")
+    @ResponseBody
+    public List<OrderInfo> queryOrderInfo(@RequestBody OrderInfoQueryVo orderReq) {
+        List<OrderInfo> order = orderService.queryOrder(orderReq);
+        System.out.println("---------------------"+order);
         return order;
     }
 
+
+    /**
+     * 新增订单信息
+     */
+    @PostMapping("/add")
+    public ResultVo addOrderInfo(@RequestBody @Validated OrderInfoVo orderReq) {
+        OrderInfo orderInfo = new OrderInfo();
+        BeanUtils.copyProperties(orderReq, orderInfo);
+        return new ResultVo(orderService.addOrderInfo(orderInfo));
+    }
 
     @RequestMapping("now")
     public String getNowTime() {

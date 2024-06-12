@@ -1,10 +1,15 @@
 package com.dw.service;
 
-import com.dw.domain.Order;
+import com.dw.domain.OrderInfo;
+import com.dw.domain.com.dw.domain.vo.OrderInfoQueryVo;
+
+import java.util.List;
 
 public interface OrderService {
 
-    Order queryOrder(String orderId);
+    List<OrderInfo> queryOrder(String orderId);
+
+    List<OrderInfo> queryOrder(OrderInfoQueryVo orderReq);
 
     /**
      * 创建订单
@@ -13,4 +18,6 @@ public interface OrderService {
      * @return
      */
     int createOrder(String userId, String productId);
+
+    int addOrderInfo(OrderInfo orderInfo);
 }
