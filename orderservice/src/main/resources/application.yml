@@ -19,6 +19,9 @@ spring:
     queue-capacity=5
     keep-alive=60
     thread-name-prefix=dw-task-
+  servlet:
+    multipart:
+      max-file-size: 10MB
 # 核心线程池数
 
 # 最大线程池数

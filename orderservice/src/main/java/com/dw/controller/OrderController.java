@@ -3,14 +3,15 @@ package com.dw.controller;
 import com.dw.domain.OrderInfo;
 import com.dw.domain.com.dw.domain.vo.OrderInfoQueryVo;
 import com.dw.domain.com.dw.domain.vo.OrderInfoVo;
+import com.dw.domain.com.dw.domain.vo.OrderListResp;
 import com.dw.domain.com.dw.domain.vo.ResultVo;
 import com.dw.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -20,7 +21,7 @@ import java.util.List;
 @RequestMapping("/order")
 public class OrderController {
 
-    @Autowired
+    @Resource
     private OrderService orderService;
 
     @RequestMapping("/query/orderId/{orderID}")
@@ -31,12 +32,9 @@ public class OrderController {
 
     @PostMapping("/query/all")
     @ResponseBody
-    public List<OrderInfo> queryOrderInfo(@RequestBody OrderInfoQueryVo orderReq) {
-        List<OrderInfo> order = orderService.queryOrder(orderReq);
-        System.out.println("---------------------"+order);
-        return order;
+    public OrderListResp queryOrderInfo(@RequestBody OrderInfoQueryVo orderReq) {
+        return orderService.queryOrder(orderReq);
     }
-
 
     /**
      * 新增订单信息

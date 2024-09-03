@@ -8,6 +8,7 @@ import com.dw.domain.Order;
 import com.dw.domain.OrderInfo;
 import com.dw.domain.com.dw.domain.vo.OrderInfoQueryVo;
 import com.dw.domain.Product;
+import com.dw.domain.com.dw.domain.vo.OrderListResp;
 import com.dw.mapper.OrderInfoMapper;
 import com.dw.mapper.OrderMapper;
 import com.dw.mapper.ProductMapper;
@@ -53,7 +54,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderInfo> queryOrder(OrderInfoQueryVo orderReq) {
+    public OrderListResp queryOrder(OrderInfoQueryVo orderReq) {
         QueryWrapper<OrderInfo> orderWrapper = new QueryWrapper<>();
         orderWrapper.eq(StringUtils.isNotBlank(orderReq.getContractNo()), "contractno", orderReq.getContractNo()).
                 eq(StringUtils.isNotBlank(orderReq.getCompany()), "company", orderReq.getCompany()).
@@ -62,8 +63,9 @@ public class OrderServiceImpl implements OrderService {
         Page<OrderInfo> page = new Page<>(orderReq.getCurrent(), orderReq.getSize());
         Page<OrderInfo> orderInfoPage = orderInfoMapper.selectPage(page, orderWrapper);
         List<OrderInfo> list = orderInfoPage.getRecords();
+        long total = orderInfoPage.getTotal();
 //        List<OrderInfo> list = orderInfoMapper.selectList(orderWrapper);
-        return list;
+        return new OrderListResp(list, total);
     }
 
     @Override
@@ -100,7 +102,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public int addOrderInfo(OrderInfo orderInfo) {
-        return 0;
+
+        return orderInfoMapper.insert(orderInfo);
     }
 
 }

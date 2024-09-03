@@ -1,6 +1,7 @@
 package com.dw.domain;
 
 import com.alibaba.excel.annotation.ExcelProperty;
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -10,9 +11,9 @@ import lombok.Data;
 @TableName("t_orderinfo")
 public class OrderInfo {
 
-    @TableId("id")
+    @TableId(value = "id",type = IdType.AUTO)
     @ExcelProperty("序号")
-    private String id;
+    private Long id;
 
     @TableField("contractno")
     @ExcelProperty("合同编号")

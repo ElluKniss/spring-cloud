@@ -30,4 +30,12 @@ public class TestController {
         ServiceResponse serviceResponse = userService.delAllUserGroups(userId);
         return serviceResponse;
     }
+
+    @RequestMapping("/testlog")
+    public void log(){
+        LOGGER.info("info.testlog");
+        LOGGER.debug("debug.testlog");
+        LOGGER.warn("warn.testlog");
+        LOGGER.error("error.testlog");
+    }
 }
