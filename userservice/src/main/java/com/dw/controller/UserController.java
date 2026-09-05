@@ -1,13 +1,14 @@
 package com.dw.controller;
 
 import com.dw.config.ConfigProperties;
+import com.dw.domain.LoginBody;
 import com.dw.domain.User;
+
+import com.dw.domain.base.Rsp;
 import com.dw.service.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
@@ -33,6 +34,13 @@ public class UserController {
 //            user = userService.getById(userID);
 //        }
         return user;
+    }
+
+    @RequestMapping("/login")
+    public Rsp login(@RequestBody @Validated LoginBody loginBody){
+        User user = userService.getUser(loginBody.getUsername(), loginBody.getPassword());
+
+        return new Rsp(user);
     }
 
     @GetMapping("now")

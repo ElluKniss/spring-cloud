@@ -5,13 +5,9 @@ import com.alibaba.fastjson2.JSONException;
 import com.alibaba.fastjson2.JSONObject;
 import com.dw.domain.base.Rsp;
 import com.dw.domain.base.ServiceConstant;
-import com.dw.service.IActionService;
 import com.dw.util.AESBase64Util;
 import com.dw.util.HttpUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -21,18 +17,17 @@ import org.springframework.util.StringUtils;
  */
 @Slf4j
 @Service("UnixService")
-public class UnixService implements IActionService {
+public class UnixService {
 
     private static final String SECRET_KEY = "fb1d497e55e0433b";
 
     private static final String URL = "http://120.52.8.241/woapi/dispatcher";
 
-    @Override
     public Rsp doAction(JSONObject jsonParam) {
         // 请求响应
         Rsp resp = new Rsp();
-        resp.setRspCode(ServiceConstant.RESP_SUCCESS);
-        resp.setRspDesc(ServiceConstant.MSG_RESP_SUCCESS);
+        resp.setCode(ServiceConstant.RESP_SUCCESS);
+        resp.setMessage(ServiceConstant.MSG_RESP_SUCCESS);
 
         // 渠道来源
         String channel = jsonParam.getJSONObject("header").getString("channel");
@@ -61,8 +56,8 @@ public class UnixService implements IActionService {
         try {
             respStr = HttpUtil.doPost(URL, reqBody.toString());
         } catch (Exception e) {
-            resp.setRspCode(ServiceConstant.STATUS_ERR);
-            resp.setRspDesc(ServiceConstant.MSG_ERR);
+            resp.setCode(ServiceConstant.STATUS_ERR);
+            resp.setMessage(ServiceConstant.MSG_ERR);
             log.error("云盘接口请求异常:{}！", e.getMessage());
             return resp;
         }
@@ -94,8 +89,8 @@ public class UnixService implements IActionService {
             }
 
             if(!ServiceConstant.RESP_SUCCESS.equals(rsp.getString("RSP_CODE"))){
-                resp.setRspCode(rsp.getString("RSP_CODE"));
-                resp.setRspDesc(rsp.getString("RSP_DESC"));
+                resp.setCode(rsp.getString("RSP_CODE"));
+                resp.setMessage(rsp.getString("RSP_DESC"));
                 log.error("业务错误码:{},描述:{}", rsp.getString("RSP_CODE"), rsp.getString("RSP_DESC"));
                 return resp;
             }
@@ -104,8 +99,8 @@ public class UnixService implements IActionService {
             return resp;
         }
 
-        resp.setRspCode(ServiceConstant.STATUS_ERR);
-        resp.setRspDesc(ServiceConstant.MSG_ERR);
+        resp.setCode(ServiceConstant.STATUS_ERR);
+        resp.setMessage(ServiceConstant.MSG_ERR);
         log.error("云盘接口请求失败！");
         return resp;
     }

@@ -1,15 +1,16 @@
 package com.dw.domain;
 
 import com.alibaba.excel.annotation.ExcelProperty;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
-@Data
-public class Product {
+import java.io.Serializable;
 
-    @ExcelProperty(value = "项目名称")
+@Data
+public class Product implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    @ExcelProperty(value = "项目名称/产品名称")
     private String productName;
 
     @ExcelProperty(value = "规格型号")
@@ -25,8 +26,6 @@ public class Product {
      */
     @ExcelProperty(value = "含税单价")
     private String price;
-
-
 
     /**
      * 金额

@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class CommonResult {
 
-    private int code;
+    private String code;
     private String message;
     private Object data;
 }

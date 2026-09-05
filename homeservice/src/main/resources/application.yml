@@ -35,9 +35,9 @@ logging:
     com.springboot.cloud.gateway: info
     com.jalja.org.spring: info
   config: classpath:logback.xml
-  path: logs/
   file:
     max-size: 1GB
+    path: logs/
 feign:
   hystrix:
     enabled: true

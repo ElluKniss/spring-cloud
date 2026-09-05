@@ -20,6 +20,15 @@ public final class OrderUtil {
 		return simpleDateFormat.format(new Date()) + generate6BitInt();
 	}
 
+	/**
+	 * 生成4位随机数序列号（不足4位前补0）
+	 *
+	 * @return 4位随机数字符串
+	 */
+	public static String getNextSeq() {
+		return String.format("%04d", new Random().nextInt(10000));
+	}
+
 	private static int generate6BitInt() {
 
 		Random random = new Random();

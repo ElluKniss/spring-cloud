@@ -1,5 +1,6 @@
 package com.dw.domain.base;
 
+import com.dw.eum.ResultCode;
 import lombok.Data;
 
 /**
@@ -7,13 +8,23 @@ import lombok.Data;
  */
 @Data
 public class Rsp {
-    private String rspCode;
-    private String rspDesc;
+    private String code;
+    private String message;
     private Object data;
 
 //	@Override
 //	public String toString() {
 //		return JSON.toJSONString(this);
 //	}
+
+    public Rsp(){
+
+    }
+
+    public Rsp(Object data) {
+        this.code = String.valueOf(ResultCode.SUCCESS.getCode());
+        this.message = ResultCode.SUCCESS.getMsg();
+        this.data = data;
+    }
 
 }

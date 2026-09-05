@@ -5,8 +5,11 @@
     <property name="APPDIR" value="log" />
     <property name="LOG_HOME" value="D:" />
     <property name="APPNAME" value="opact" />
-    <property name="LOG_PATTERN"
-              value="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%p]---[%X{log_id}] [%X{traceid}] [%C{1}:%L] %m%n"></property>
+    <property name="servicename" value="home"/>
+    <property name="LOG_PATTERN" value="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%p]---[%X{log_id}] [%X{traceid}] [%C{1}:%L] %m%n"/>
+
+<!--    彩色日志-->
+
 
     <!--ConsoleAppender是打印到控制台的-->
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
@@ -23,9 +26,9 @@
  
     <appender name="opactAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!-- 记录的日志文件的路径及文件名 -->
-        <file>${LOG_HOME}/${APPNAME}/${APPNAME}.log</file>
+        <file>${LOG_HOME}/${APPNAME}/${servicename}_info.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_HOME}/${APPNAME}/${APPNAME}-%d{yyyyMMdd}.%i.log</fileNamePattern>
+            <fileNamePattern>${LOG_HOME}/${APPNAME}/${servicename}-%d{yyyyMMdd}.%i.log</fileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <!--最大50mb-->
                 <maxFileSize>50MB</maxFileSize>
@@ -43,9 +46,9 @@
     
     <appender name="opactSuccessAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!-- 记录的日志文件的路径及文件名 -->
-        <file>${LOG_HOME}/${APPNAME}/${APPNAME}_success.log</file>
+        <file>${LOG_HOME}/${APPNAME}/${servicename}_success.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_HOME}/${APPNAME}/${APPNAME}_success-%d{yyyyMMdd}.%i.log</fileNamePattern>
+            <fileNamePattern>${LOG_HOME}/${APPNAME}/${servicename}_success-%d{yyyyMMdd}.%i.log</fileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <!--最大50mb-->
                 <maxFileSize>50MB</maxFileSize>
@@ -61,13 +64,14 @@
         </filter>
     </appender>
 
- 
+
+<!--    name用来指定受此logger约束的某一个包或具体的类-->
     <logger name="opactLogger" additivity="false">
         <!--使用哪一个Appender-->
         <appender-ref ref="opactAppender" />
  
     </logger>
-     <logger name="opactSuccessLogger" additivity="false">
+     <logger name="com.dw.controller" level="info" additivity="false">
         <!--使用哪一个Appender-->
         <appender-ref ref="opactSuccessAppender" />
  
@@ -77,6 +81,7 @@
     <!--根loger。只有一个level属性，应为已经被命名为"root".-->
     <root level="info">
         <appender-ref ref="console" />
+        <appender-ref ref="opactSuccessAppender"/>
     </root>
  
 </configuration>
