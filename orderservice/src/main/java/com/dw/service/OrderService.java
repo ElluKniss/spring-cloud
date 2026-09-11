@@ -1,8 +1,8 @@
 package com.dw.service;
 
 import com.dw.domain.OrderInfo;
-import com.dw.domain.com.dw.domain.vo.OrderInfoQueryVo;
-import com.dw.domain.com.dw.domain.vo.OrderListResp;
+import com.dw.domain.vo.OrderInfoQueryVo;
+import com.dw.domain.vo.OrderListResp;
 
 import java.util.List;
 

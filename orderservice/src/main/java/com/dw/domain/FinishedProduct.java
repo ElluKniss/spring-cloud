@@ -2,27 +2,42 @@ package com.dw.domain;
 
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.baomidou.mybatisplus.annotation.*;
-import com.dw.handle.String2ListTypeHandler;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.List;
+
 
 @Data
-@TableName(value = "t_lingliao", autoResultMap = true)
-public class LingLiao {
+@TableName(value = "t_finish", autoResultMap = true)
+public class FinishedProduct {
 
     @TableId(value = "id",type = IdType.AUTO)
     private long id;
 
     @TableField("orderid")
-    @ExcelProperty(value = "订单号", index = 7)
+    // 订单号
     private String orderId;
 
+    // 编号
+    @TableField("noid")
+    private String noId;
+
+    // 入库-出库
+    private String type;
+
+    @TableField("date")
     private String date;
 
-    private String dept;
+
+    @TableField("productname")
+    private String productName;
+
+    private String model;
+
+    // 入库数量
+    @TableField("countin")
+    private int count;
 
     private String remark;
 
@@ -32,9 +47,5 @@ public class LingLiao {
     @TableField(value = "create_time", insertStrategy = FieldStrategy.NEVER)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime createTime;
-
-    // productList 使用自定义处理器，确保反序列化为 Product 而非 LinkedHashMap
-    @TableField(value = "productlist", typeHandler = String2ListTypeHandler.class)
-    private List<Product> productList;
 
 }

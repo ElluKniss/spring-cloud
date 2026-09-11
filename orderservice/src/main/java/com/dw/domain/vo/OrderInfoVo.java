@@ -1,4 +1,4 @@
-package com.dw.domain.com.dw.domain.vo;
+package com.dw.domain.vo;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;

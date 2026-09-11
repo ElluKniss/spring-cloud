@@ -1,4 +1,4 @@
-package com.dw.domain.com.dw.domain.vo;
+package com.dw.domain.vo;
 
 import com.dw.domain.LingLiao;
 import com.dw.domain.Product;

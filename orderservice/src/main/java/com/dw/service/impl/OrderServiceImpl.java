@@ -6,9 +6,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.dw.client.UserClient;
 import com.dw.domain.Order;
 import com.dw.domain.OrderInfo;
-import com.dw.domain.com.dw.domain.vo.OrderInfoQueryVo;
+import com.dw.domain.vo.OrderInfoQueryVo;
 import com.dw.domain.Product;
-import com.dw.domain.com.dw.domain.vo.OrderListResp;
+import com.dw.domain.vo.OrderListResp;
+import com.dw.exception.BusinessException;
 import com.dw.mapper.OrderInfoMapper;
 import com.dw.mapper.OrderMapper;
 import com.dw.mapper.ProductMapper;
@@ -48,7 +49,7 @@ public class OrderServiceImpl implements OrderService {
         QueryWrapper<OrderInfo> orderWrapper = new QueryWrapper<>();
         orderWrapper.eq("contractno", orderId);
         List<OrderInfo> orderInfos = orderInfoMapper.selectList(orderWrapper);
-        System.out.println("-------------------------------:" + orderInfos);
+        log.info("按合同号[{}]查询到 {} 条订单明细", orderId, orderInfos.size());
 
         return orderInfos;
     }
@@ -71,17 +72,18 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
     public int createOrder(String userId, String productId) {
+        log.info("创建订单开始：userId={}, productId={}", userId, productId);
         // 查询数量
         Product product = productMapper.selectById(productId);
         if(null == product){
-            log.error("商品不存在");
-            return 0;
+            log.warn("商品不存在：productId={}", productId);
+            throw new BusinessException("商品不存在：" + productId);
         }
 
-        int count = product.getCount();
-        if(0>= count){
-            log.warn("库存没了");
-            return 0;
+        int count = product.getCount().intValue();
+        if(0 >= count){
+            log.warn("库存不足：productId={}, 当前库存={}", productId, count);
+            throw new BusinessException("库存不足，商品ID：" + productId);
         }
 
         // 创建订单
@@ -89,15 +91,20 @@ public class OrderServiceImpl implements OrderService {
         order.setStatus("1");
         String orderId =  OrderUtil.getOrderNo();
         order.setOrderID(orderId);
-        int insert = orderMapper.insert(order);
+        orderMapper.insert(order);
 
 
-        // 扣减库存
+        // 扣减库存（乐观条件：仅当库存未被其他事务改动时才扣减）
         UpdateWrapper<Product> updateWrapper = new UpdateWrapper<>();
         updateWrapper.eq("productid", productId).eq("count", count).set("count", count-1);
-        productMapper.update(null, updateWrapper);
+        int updated = productMapper.update(null, updateWrapper);
+        if (updated == 0) {
+            log.warn("库存扣减失败（并发冲突）：productId={}, orderId={}", productId, orderId);
+            throw new BusinessException("库存扣减失败，请重试");
+        }
+        log.info("创建订单成功：orderId={}, productId={}", orderId, productId);
 
-        return 0;
+        return 1;
     }
 
     @Override

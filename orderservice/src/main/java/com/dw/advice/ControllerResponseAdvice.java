@@ -1,6 +1,6 @@
 package com.dw.advice;
 
-import com.dw.domain.com.dw.domain.vo.ResultVo;
+import com.dw.domain.vo.ResultVo;
 import com.dw.eum.ResultCode;
 import com.dw.exception.APIException;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -23,8 +23,7 @@ public class ControllerResponseAdvice implements ResponseBodyAdvice<Object> {
     public boolean supports(MethodParameter methodParameter, Class className) {
         // response是resultVo类型，或者有NotControllerResponseAdvice注解 都不需要包装
         //A(isAssignableFrom)B a是b的父类
-        log.info("----------method {}", methodParameter.getParameterType().getName());
-        System.out.println("+++++++++++++method {}"+ methodParameter.getParameterType().getName());
+        log.debug("响应包装检查：{}", methodParameter.getParameterType().getName());
         return !methodParameter.getParameterType().isAssignableFrom(ResultVo.class);
     }
 

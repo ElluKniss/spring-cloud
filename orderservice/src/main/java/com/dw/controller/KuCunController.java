@@ -1,8 +1,8 @@
 package com.dw.controller;
 
-import com.dw.domain.com.dw.domain.vo.KuCunQuery;
-import com.dw.domain.com.dw.domain.vo.PurchaseListResp;
-import com.dw.domain.com.dw.domain.vo.PurchaseQuery;
+import com.dw.domain.vo.KuCunQuery;
+import com.dw.domain.vo.StockCacheResp;
+import com.dw.domain.vo.StockListResp;
 import com.dw.service.PurchaseService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,8 +20,13 @@ public class KuCunController {
     private PurchaseService purchaseService;
 
     @RequestMapping("/list")
-    public PurchaseListResp queryAll(@RequestBody KuCunQuery kuCunQuery) {
+    public StockListResp queryAll(@RequestBody KuCunQuery kuCunQuery) {
 
         return purchaseService.queryKuCun(kuCunQuery);
+    }
+
+    @RequestMapping("/ling")
+    public StockCacheResp queryKuCun(@RequestBody KuCunQuery kuCunQuery) {
+        return purchaseService.queryKuCunFromLing(kuCunQuery);
     }
 }

@@ -1,10 +1,10 @@
 package com.dw.controller;
 
 import com.dw.domain.OrderInfo;
-import com.dw.domain.com.dw.domain.vo.OrderInfoQueryVo;
-import com.dw.domain.com.dw.domain.vo.OrderInfoVo;
-import com.dw.domain.com.dw.domain.vo.OrderListResp;
-import com.dw.domain.com.dw.domain.vo.ResultVo;
+import com.dw.domain.vo.OrderInfoQueryVo;
+import com.dw.domain.vo.OrderInfoVo;
+import com.dw.domain.vo.OrderListResp;
+import com.dw.domain.vo.ResultVo;
 import com.dw.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;

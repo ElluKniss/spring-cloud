@@ -1,4 +1,4 @@
-package com.dw.domain.com.dw.domain.vo;
+package com.dw.domain.vo;
 
 import com.dw.eum.ResultCode;
 import com.dw.eum.StatusCode;

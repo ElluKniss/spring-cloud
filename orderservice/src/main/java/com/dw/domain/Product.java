@@ -4,6 +4,7 @@ import com.alibaba.excel.annotation.ExcelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Data
 public class Product implements Serializable {
@@ -20,13 +21,17 @@ public class Product implements Serializable {
     private String unit;
 
     @ExcelProperty(value = "数量")
-    private int count;
+    private BigDecimal count;
     /**
      * 含税单价
      */
     @ExcelProperty(value = "含税单价")
-    private String price;
+    private BigDecimal price;
 
+    /**
+     * 不含税总价
+     */
+    private BigDecimal noTaxAmount;
     /**
      * 金额
      */

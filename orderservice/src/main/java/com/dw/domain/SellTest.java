@@ -1,6 +1,5 @@
-package test;
+package com.dw.domain;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 
 @Data

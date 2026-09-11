@@ -1,13 +1,12 @@
 package com.dw.controller;
 
 import com.dw.domain.SellInfo;
-import com.dw.domain.com.dw.domain.vo.ResultVo;
-import com.dw.domain.com.dw.domain.vo.SellInfoVo;
-import com.dw.domain.com.dw.domain.vo.SellListResp;
-import com.dw.domain.com.dw.domain.vo.SellQueryVo;
+import com.dw.domain.vo.ResultVo;
+import com.dw.domain.vo.SellInfoVo;
+import com.dw.domain.vo.SellListResp;
+import com.dw.domain.vo.SellQueryVo;
 import com.dw.service.SellService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;

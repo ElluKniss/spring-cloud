@@ -1,11 +1,14 @@
 package com.dw.domain;
 
 import com.alibaba.excel.annotation.ExcelProperty;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
+import com.dw.handle.String2ListTypeHandler;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Data
@@ -13,7 +16,7 @@ import lombok.Data;
 public class Purchase {
 
     @TableId(value = "id",type = IdType.AUTO)
-    private Long id;
+    private long id;
 
     @TableField("orderid")
     @ExcelProperty(value = "订单号", index = 7)
@@ -39,7 +42,7 @@ public class Purchase {
     private String productName;
 
     @ExcelProperty(value = "数量", index = 5)
-    private String count;
+    private BigDecimal count;
 
     @ExcelProperty(value = "单位", index = 4)
     private String dan;
@@ -49,7 +52,7 @@ public class Purchase {
 
     @TableField("unitprice")
     @ExcelProperty(value = "单价", index = 6)
-    private String unitPrice;
+    private BigDecimal unitPrice;
 
     @TableField("totalprice")
     private String totalPrice;
@@ -64,4 +67,12 @@ public class Purchase {
     private String remark;
 
     private String jbr;
+
+    // 插入时不传值，用数据库默认
+    @TableField(value = "create_time", insertStrategy = FieldStrategy.NEVER)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private LocalDateTime createTime;
+
+    @TableField(value = "productlist", typeHandler = String2ListTypeHandler.class)
+    private List<Product> productList;
 }

@@ -18,7 +18,7 @@ spring:
         - id: provider_order_routh   #路由 id,没有固定规则，但唯一，建议与服务名对应
           uri: lb://orderservice          #匹配后提供服务的路由地址，通过负载均衡访问 orderservice
           predicates:
-            - Path=/order/**, /purchase/**, /sell/**, /kucun/**
+            - Path=/order/**, /purchase/**, /sell/**, /kucun/**, /chengpin/**
 #    nacos:
 #      server-addr: localhost:8848
 
